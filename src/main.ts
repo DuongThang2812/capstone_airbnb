@@ -14,7 +14,6 @@ async function bootstrap(): Promise<void> {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Airbnb RESTful API - Capstone Node.js')
-    .setDescription('Documentation for 36 endpoints covering authentication, users, locations, rooms, bookings, and comments. Protected endpoints require a JWT Bearer token.')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
