@@ -12,8 +12,8 @@ export class DatPhongController {
 
   @Get()
   @ApiOperation({
-    summary: "Lấy danh sách đặt phòng",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Không có tham số đầu vào; trả về toàn bộ đơn đặt phòng.",
+    summary: "List bookings",
+    description: "Public; no JWT required. Returns all bookings.",
   })
   async findAll() {
     return success(await this.datPhong.findAll());
@@ -22,8 +22,8 @@ export class DatPhongController {
   @Post()
   @HttpCode(200)
   @ApiOperation({
-    summary: "Tạo đơn đặt phòng",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Body: maPhong là mã phòng tồn tại, ngayDen và ngayDi là thời điểm ISO 8601 (ngày đi sau ngày đến), soLuongKhach là số khách nguyên dương, maNguoiDat là mã người dùng tồn tại.",
+    summary: "Create a booking",
+    description: "Public; no JWT required. Body: maPhong (room ID), ngayDen and ngayDi (ISO 8601 dates, with departure after arrival), soLuongKhach (positive guest count), and maNguoiDat (user ID).",
   })
   async create(@Body() dto: DatPhongDto) {
     return success(await this.datPhong.create(dto));
@@ -31,8 +31,8 @@ export class DatPhongController {
 
   @Get('lay-theo-nguoi-dung/:MaNguoiDung')
   @ApiOperation({
-    summary: "Lấy đặt phòng theo người dùng",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path MaNguoiDung là mã người dùng nguyên dương để lọc các đơn đặt phòng.",
+    summary: "List bookings by user",
+    description: "Public; no JWT required. Path MaNguoiDung: positive user ID.",
   })
   async findByUser(@Param('MaNguoiDung') userId: string) {
     return success(await this.datPhong.findByUser(positiveInt(userId, 'MaNguoiDung')));
@@ -40,8 +40,8 @@ export class DatPhongController {
 
   @Get(':id')
   @ApiOperation({
-    summary: "Lấy chi tiết đặt phòng theo mã",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path id là mã đơn đặt phòng nguyên dương cần xem.",
+    summary: "Get a booking by ID",
+    description: "Public; no JWT required. Path id: positive booking ID.",
   })
   async findOne(@Param('id') id: string) {
     return success(await this.datPhong.findOne(positiveInt(id, 'id')));
@@ -49,8 +49,8 @@ export class DatPhongController {
 
   @Put(':id')
   @ApiOperation({
-    summary: "Cập nhật đặt phòng theo mã",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path id là mã đơn đặt phòng nguyên dương. Body có thể gồm maPhong, ngayDen, ngayDi, soLuongKhach, maNguoiDat; cần ít nhất một trường và ngày đi phải sau ngày đến.",
+    summary: "Update a booking",
+    description: "Public; no JWT required. Path id: positive booking ID. Body: at least one of maPhong, ngayDen, ngayDi, soLuongKhach, or maNguoiDat; departure must follow arrival.",
   })
   async update(@Param('id') id: string, @Body() dto: UpdateDatPhongDto) {
     return success(await this.datPhong.update(positiveInt(id, 'id'), dto));
@@ -58,8 +58,8 @@ export class DatPhongController {
 
   @Delete(':id')
   @ApiOperation({
-    summary: "Xóa đặt phòng theo mã",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path id là mã đơn đặt phòng nguyên dương cần xóa.",
+    summary: "Delete a booking",
+    description: "Public; no JWT required. Path id: positive booking ID.",
   })
   async remove(@Param('id') id: string) {
     return success(await this.datPhong.remove(positiveInt(id, 'id')));

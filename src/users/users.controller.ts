@@ -19,8 +19,8 @@ export class UsersController {
 
   @Get()
   @ApiOperation({
-    summary: "Lấy danh sách người dùng",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Không có tham số đầu vào; danh sách trả về không chứa mật khẩu.",
+    summary: "List users",
+    description: "Public; no JWT required. Returns all users without passwords.",
   })
   async findAll() {
     return success(await this.users.findAll());
@@ -28,8 +28,8 @@ export class UsersController {
 
   @Post()
   @ApiOperation({
-    summary: "Tạo người dùng mới",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Body: name là họ tên, email là địa chỉ duy nhất, password là mật khẩu; phone, birthday (YYYY-MM-DD), gender (boolean) và role là thông tin tùy chọn.",
+    summary: "Create a user",
+    description: "Public; no JWT required. Body: name, unique email, and password are required; phone, birthday (YYYY-MM-DD), gender, and role are optional.",
   })
   @HttpCode(200)
   async create(@Body() dto: SignUpDto) {
@@ -38,8 +38,8 @@ export class UsersController {
 
   @Delete()
   @ApiOperation({
-    summary: "Xóa người dùng theo mã",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Query id là mã người dùng nguyên dương cần xóa; các đặt phòng và bình luận liên quan bị xóa theo khóa ngoại.",
+    summary: "Delete a user",
+    description: "Public; no JWT required. Query id: positive user ID. Related bookings and comments are deleted.",
   })
   async remove(@Query('id') id: string) {
     return success(await this.users.remove(positiveInt(id, 'id')));
@@ -47,8 +47,8 @@ export class UsersController {
 
   @Get('phan-trang-tim-kiem')
   @ApiOperation({
-    summary: "Phân trang và tìm kiếm người dùng",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Query pageIndex là số trang (mặc định 1), pageSize là số bản ghi mỗi trang (mặc định 10), keyword lọc theo họ tên (có thể bỏ trống).",
+    summary: "Search and paginate users",
+    description: "Public; no JWT required. Query pageIndex (default 1), pageSize (default 10), and optional keyword to filter names.",
   })
   @ApiQuery({ name: 'pageIndex', required: false, example: 1 })
   @ApiQuery({ name: 'pageSize', required: false, example: 10 })
@@ -67,8 +67,8 @@ export class UsersController {
 
   @Get('search/:TenNguoiDung')
   @ApiOperation({
-    summary: "Tìm người dùng theo tên",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path TenNguoiDung là từ khóa họ tên cần tìm; trả về các người dùng có tên chứa từ khóa.",
+    summary: "Search users by name",
+    description: "Public; no JWT required. Path TenNguoiDung: name keyword to match.",
   })
   async search(@Param('TenNguoiDung') name: string) {
     return success(await this.users.search(name));
@@ -76,8 +76,8 @@ export class UsersController {
 
   @Post('upload-avatar')
   @ApiOperation({
-    summary: "Tải ảnh đại diện của tài khoản đang đăng nhập",
-    description: "Yêu cầu JWT Bearer Token. Body multipart/form-data: formFile là ảnh JPG, PNG hoặc WebP (tối đa 5 MB). Tài khoản được xác định từ token, không truyền mã người dùng.",
+    summary: "Upload the current user's avatar",
+    description: "JWT Bearer token required. Send formFile as a JPG, PNG, or WebP image (up to 5 MB) in multipart/form-data. The token identifies the user.",
   })
   @HttpCode(200)
   @UseGuards(AuthGuard('jwt'))
@@ -116,8 +116,8 @@ export class UsersController {
 
   @Get(':id')
   @ApiOperation({
-    summary: "Lấy chi tiết người dùng theo mã",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path id là mã người dùng nguyên dương cần xem; phản hồi không chứa mật khẩu.",
+    summary: "Get a user by ID",
+    description: "Public; no JWT required. Path id: positive user ID. The response excludes the password.",
   })
   async findOne(@Param('id') id: string) {
     return success(await this.users.findOne(positiveInt(id, 'id')));
@@ -125,8 +125,8 @@ export class UsersController {
 
   @Put(':id')
   @ApiOperation({
-    summary: "Cập nhật thông tin người dùng theo mã",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path id là mã người dùng nguyên dương. Body có thể gồm name, email, password, phone, birthday (YYYY-MM-DD), gender (boolean), role; cần ít nhất một trường.",
+    summary: "Update a user",
+    description: "Public; no JWT required. Path id: positive user ID. Body: at least one of name, email, password, phone, birthday (YYYY-MM-DD), gender, or role.",
   })
   async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return success(await this.users.update(positiveInt(id, 'id'), dto));

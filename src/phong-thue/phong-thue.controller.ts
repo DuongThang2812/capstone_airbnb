@@ -16,8 +16,8 @@ export class PhongThueController {
 
   @Get()
   @ApiOperation({
-    summary: "Lấy danh sách phòng thuê",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Không có tham số đầu vào; trả về toàn bộ phòng thuê.",
+    summary: "List rooms",
+    description: "Public; no JWT required. Returns all rental rooms.",
   })
   async findAll() {
     return success(await this.phongThue.findAll());
@@ -25,8 +25,8 @@ export class PhongThueController {
 
   @Post()
   @ApiOperation({
-    summary: "Tạo phòng thuê mới",
-    description: "Yêu cầu JWT Bearer Token. Body: tenPhong là tên phòng; khach, phongNgu, giuong, phongTam là sức chứa và số lượng tiện ích; moTa, giaTien là mô tả và giá; mayGiat, banLa, tivi, dieuHoa, wifi, bep, doXe, hoBoi, banUi là các cờ tiện nghi; maViTri là mã vị trí tồn tại; hinhAnh là đường dẫn ảnh tùy chọn.",
+    summary: "Create a room",
+    description: "JWT Bearer token required. Body: tenPhong (name), khach (guests), phongNgu (bedrooms), giuong (beds), phongTam (bathrooms), moTa (description), giaTien (price), maViTri (location ID), amenity flags, and optional hinhAnh (image URL).",
   })
   @HttpCode(200)
   @UseGuards(AuthGuard('jwt'))
@@ -37,8 +37,8 @@ export class PhongThueController {
 
   @Get('lay-phong-theo-vi-tri')
   @ApiOperation({
-    summary: "Lấy phòng thuê theo vị trí",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Query maViTri là mã vị trí nguyên dương để lọc danh sách phòng.",
+    summary: "List rooms by location",
+    description: "Public; no JWT required. Query maViTri: positive location ID.",
   })
   @ApiQuery({ name: 'maViTri', required: true, type: Number })
   async findByLocation(@Query('maViTri') maViTri: string) {
@@ -47,8 +47,8 @@ export class PhongThueController {
 
   @Get('phan-trang-tim-kiem')
   @ApiOperation({
-    summary: "Phân trang và tìm kiếm phòng thuê",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Query pageIndex là số trang (mặc định 1), pageSize là số bản ghi mỗi trang (mặc định 10), keyword lọc theo tenPhong.",
+    summary: "Search and paginate rooms",
+    description: "Public; no JWT required. Query pageIndex (default 1), pageSize (default 10), and optional keyword to filter room names.",
   })
   @ApiQuery({ name: 'pageIndex', required: false, example: 1 })
   @ApiQuery({ name: 'pageSize', required: false, example: 10 })
@@ -67,8 +67,8 @@ export class PhongThueController {
 
   @Post('upload-hinh-phong')
   @ApiOperation({
-    summary: "Tải ảnh cho phòng thuê",
-    description: "Yêu cầu JWT Bearer Token. Query maPhong là mã phòng nguyên dương cần gắn ảnh. Body multipart/form-data: formFile là ảnh JPG, PNG hoặc WebP, tối đa 5 MB.",
+    summary: "Upload a room image",
+    description: "JWT Bearer token required. Query maPhong: positive room ID. Send formFile as a JPG, PNG, or WebP image (up to 5 MB) in multipart/form-data.",
   })
   @HttpCode(200)
   @UseGuards(AuthGuard('jwt'))
@@ -109,8 +109,8 @@ export class PhongThueController {
 
   @Get(':id')
   @ApiOperation({
-    summary: "Lấy chi tiết phòng thuê theo mã",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path id là mã phòng nguyên dương cần xem.",
+    summary: "Get a room by ID",
+    description: "Public; no JWT required. Path id: positive room ID.",
   })
   async findOne(@Param('id') id: string) {
     return success(await this.phongThue.findOne(positiveInt(id, 'id')));
@@ -118,8 +118,8 @@ export class PhongThueController {
 
   @Put(':id')
   @ApiOperation({
-    summary: "Cập nhật phòng thuê theo mã",
-    description: "Yêu cầu JWT Bearer Token. Path id là mã phòng nguyên dương. Body có thể gồm toàn bộ trường của phòng: tenPhong, khach, phongNgu, giuong, phongTam, moTa, giaTien, các cờ tiện nghi, maViTri và hinhAnh; cần ít nhất một trường.",
+    summary: "Update a room",
+    description: "JWT Bearer token required. Path id: positive room ID. Body: at least one room field, including details, amenities, maViTri, or hinhAnh.",
   })
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
@@ -129,8 +129,8 @@ export class PhongThueController {
 
   @Delete(':id')
   @ApiOperation({
-    summary: "Xóa phòng thuê theo mã",
-    description: "Yêu cầu JWT Bearer Token. Path id là mã phòng nguyên dương cần xóa; đặt phòng và bình luận liên quan bị xóa theo khóa ngoại.",
+    summary: "Delete a room",
+    description: "JWT Bearer token required. Path id: positive room ID. Related bookings and comments are deleted.",
   })
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()

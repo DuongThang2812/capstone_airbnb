@@ -13,8 +13,8 @@ export class BinhLuanController {
 
   @Get()
   @ApiOperation({
-    summary: "Lấy danh sách bình luận",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Không có tham số đầu vào; trả về toàn bộ bình luận.",
+    summary: "List comments",
+    description: "Public; no JWT required. Returns all comments.",
   })
   async findAll() {
     return success(await this.binhLuan.findAll());
@@ -25,8 +25,8 @@ export class BinhLuanController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @ApiOperation({
-    summary: "Thêm bình luận cho phòng thuê",
-    description: "Yêu cầu JWT Bearer Token. Body: maPhong là mã phòng tồn tại, maNguoiBinhLuan là mã người dùng tồn tại, ngayBinhLuan là thời điểm ISO 8601 tùy chọn (mặc định hiện tại), noiDung là nội dung nhận xét, saoBinhLuan là số sao nguyên từ 1 đến 5.",
+    summary: "Create a room comment",
+    description: "JWT Bearer token required. Body: maPhong (room ID), maNguoiBinhLuan (user ID), noiDung (comment), saoBinhLuan (1-5 stars), and optional ngayBinhLuan (ISO 8601 date; defaults to now).",
   })
   async create(@Body() dto: BinhLuanDto) {
     return success(await this.binhLuan.create(dto));
@@ -34,8 +34,8 @@ export class BinhLuanController {
 
   @Get('lay-binh-luan-theo-phong/:MaPhong')
   @ApiOperation({
-    summary: "Lấy bình luận theo phòng thuê",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Path MaPhong là mã phòng nguyên dương; phản hồi có thêm tenNguoiBinhLuan và avatar của người viết.",
+    summary: "List comments by room",
+    description: "Public; no JWT required. Path MaPhong: positive room ID. Includes the author's name and avatar.",
   })
   async findByRoom(@Param('MaPhong') roomId: string) {
     return success(await this.binhLuan.findByRoom(positiveInt(roomId, 'MaPhong')));
@@ -45,8 +45,8 @@ export class BinhLuanController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @ApiOperation({
-    summary: "Cập nhật bình luận theo mã",
-    description: "Yêu cầu JWT Bearer Token. Path id là mã bình luận nguyên dương. Body có thể gồm noiDung (nội dung nhận xét) và saoBinhLuan (số sao nguyên từ 1 đến 5); cần ít nhất một trường.",
+    summary: "Update a comment",
+    description: "JWT Bearer token required. Path id: positive comment ID. Body: at least one of noiDung (comment) or saoBinhLuan (1-5 stars).",
   })
   async update(@Param('id') id: string, @Body() dto: UpdateBinhLuanDto) {
     return success(await this.binhLuan.update(positiveInt(id, 'id'), dto));
@@ -56,8 +56,8 @@ export class BinhLuanController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @ApiOperation({
-    summary: "Xóa bình luận theo mã",
-    description: "Yêu cầu JWT Bearer Token. Path id là mã bình luận nguyên dương cần xóa.",
+    summary: "Delete a comment",
+    description: "JWT Bearer token required. Path id: positive comment ID.",
   })
   async remove(@Param('id') id: string) {
     return success(await this.binhLuan.remove(positiveInt(id, 'id')));

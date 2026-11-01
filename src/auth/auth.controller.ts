@@ -12,8 +12,8 @@ export class AuthController {
 
   @Post('signup')
   @ApiOperation({
-    summary: "Đăng ký tài khoản người dùng",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Body: name là họ tên, email là địa chỉ đăng nhập, password là mật khẩu; phone, birthday (YYYY-MM-DD) và gender (boolean) là thông tin tùy chọn. role gửi lên không được dùng; tài khoản mới có vai trò USER.",
+    summary: "Sign up for an account",
+    description: "Public; no JWT required. Body: name, email, and password are required; phone, birthday (YYYY-MM-DD), and gender are optional. New accounts have the USER role.",
   })
   @HttpCode(200)
   async signup(@Body() dto: SignUpDto) {
@@ -22,8 +22,8 @@ export class AuthController {
 
   @Post('signin')
   @ApiOperation({
-    summary: "Đăng nhập và nhận JWT",
-    description: "Công khai, không yêu cầu JWT Bearer Token. Body: email là địa chỉ đã đăng ký, password là mật khẩu. Phản hồi trả về thông tin người dùng và token để dùng trong các API có bảo vệ.",
+    summary: "Sign in and get a JWT",
+    description: "Public; no JWT required. Body: email and password. Returns the user and a JWT for protected endpoints.",
   })
   @HttpCode(200)
   async signin(@Body() dto: SignInDto) {
