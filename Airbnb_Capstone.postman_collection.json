@@ -1,0 +1,821 @@
+{
+  "info": {
+    "name": "Airbnb Capstone RESTful API",
+    "description": "All 36 routes from the six API groups. Run Sign in first to save the bearer token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Sign up for a new account",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/signup",
+            "description": "Sign up for a new account",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New User\",\n  \"email\": \"new{{$timestamp}}@example.com\",\n  \"password\": \"Password@123\",\n  \"phone\": \"0901234567\",\n  \"birthday\": \"1995-01-15\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.id) {",
+                  "  pm.collectionVariables.set('userId', result.content?.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sign in",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/signin",
+            "description": "Sign in",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"an@example.com\",\n  \"password\": \"Password@123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.token) {",
+                  "  pm.collectionVariables.set('token', result.content?.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "NguoiDung",
+      "item": [
+        {
+          "name": "Get all users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/users",
+            "description": "Get all users"
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new user",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/users",
+            "description": "Create a new user",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Created User\",\n  \"email\": \"created{{$timestamp}}@example.com\",\n  \"password\": \"Password@123\",\n  \"phone\": \"0901234567\",\n  \"birthday\": \"1995-01-15\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.id) {",
+                  "  pm.collectionVariables.set('userId', result.content?.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete a user by ID",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/users?id={{userId}}",
+            "description": "Delete a user by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Paginate and search users",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/users/phan-trang-tim-kiem?pageIndex=1&pageSize=10",
+            "description": "Paginate and search users"
+          },
+          "response": []
+        },
+        {
+          "name": "Search users by name",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/users/search/An",
+            "description": "Search users by name"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload an avatar for the signed-in user",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/users/upload-avatar",
+            "description": "Upload an avatar for the signed-in user",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "formFile",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get user details by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/users/{{userId}}",
+            "description": "Get user details by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update a user by ID",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/users/{{userId}}",
+            "description": "Update a user by ID",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated User\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ViTri",
+      "item": [
+        {
+          "name": "Get all locations",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/vi-tri",
+            "description": "Get all locations"
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new location",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/vi-tri",
+            "description": "Create a new location",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenViTri\": \"Quan 3\",\n  \"tinhThanh\": \"TP Ho Chi Minh\",\n  \"quocGia\": \"Viet Nam\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.id) {",
+                  "  pm.collectionVariables.set('locationId', result.content?.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paginate and search locations by name",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/vi-tri/phan-trang-tim-kiem?pageIndex=1&pageSize=10",
+            "description": "Paginate and search locations by name"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload an image for a location by maViTri",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/vi-tri/upload-hinh-vitri?maViTri={{locationId}}",
+            "description": "Upload an image for a location by maViTri",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "formFile",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get location details by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/vi-tri/{{locationId}}",
+            "description": "Get location details by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update a location by ID",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/vi-tri/{{locationId}}",
+            "description": "Update a location by ID",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenViTri\": \"Quan 3 moi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a location by ID",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/vi-tri/{{locationId}}",
+            "description": "Delete a location by ID",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Phong",
+      "item": [
+        {
+          "name": "Get all rooms",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/phong-thue",
+            "description": "Get all rooms"
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new room",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/phong-thue",
+            "description": "Create a new room",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenPhong\": \"Can ho moi\",\n  \"khach\": 2,\n  \"phongNgu\": 1,\n  \"giuong\": 1,\n  \"phongTam\": 1,\n  \"moTa\": \"Can ho sach se\",\n  \"giaTien\": 900000,\n  \"mayGiat\": true,\n  \"banLa\": true,\n  \"tivi\": true,\n  \"dieuHoa\": true,\n  \"wifi\": true,\n  \"bep\": true,\n  \"doXe\": false,\n  \"hoBoi\": false,\n  \"banUi\": false,\n  \"maViTri\": {{locationId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.id) {",
+                  "  pm.collectionVariables.set('roomId', result.content?.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get rooms by location ID (maViTri)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/phong-thue/lay-phong-theo-vi-tri?maViTri={{locationId}}",
+            "description": "Get rooms by location ID (maViTri)"
+          },
+          "response": []
+        },
+        {
+          "name": "Paginate and search rooms by name",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/phong-thue/phan-trang-tim-kiem?pageIndex=1&pageSize=10",
+            "description": "Paginate and search rooms by name"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload an image for a room by maPhong",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/phong-thue/upload-hinh-phong?maPhong={{roomId}}",
+            "description": "Upload an image for a room by maPhong",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "formFile",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get room details by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/phong-thue/{{roomId}}",
+            "description": "Get room details by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update a room by ID",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/phong-thue/{{roomId}}",
+            "description": "Update a room by ID",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"giaTien\": 950000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a room by ID",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/phong-thue/{{roomId}}",
+            "description": "Delete a room by ID",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "DatPhong",
+      "item": [
+        {
+          "name": "Get all bookings",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/dat-phong",
+            "description": "Get all bookings"
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new booking",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/dat-phong",
+            "description": "Create a new booking",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"maPhong\": {{roomId}},\n  \"ngayDen\": \"2026-11-10T14:00:00.000Z\",\n  \"ngayDi\": \"2026-11-12T12:00:00.000Z\",\n  \"soLuongKhach\": 2,\n  \"maNguoiDat\": {{userId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.id) {",
+                  "  pm.collectionVariables.set('bookingId', result.content?.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get bookings by user ID (MaNguoiDung)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/dat-phong/lay-theo-nguoi-dung/{{userId}}",
+            "description": "Get bookings by user ID (MaNguoiDung)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get booking details by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}",
+            "description": "Get booking details by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update a booking by ID",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}",
+            "description": "Update a booking by ID",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"soLuongKhach\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a booking by ID",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}",
+            "description": "Delete a booking by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "BinhLuan",
+      "item": [
+        {
+          "name": "Get all comments",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/binh-luan",
+            "description": "Get all comments"
+          },
+          "response": []
+        },
+        {
+          "name": "Add a new comment for a room",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/binh-luan",
+            "description": "Add a new comment for a room",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"maPhong\": {{roomId}},\n  \"maNguoiBinhLuan\": {{userId}},\n  \"noiDung\": \"The room is clean and comfortable\",\n  \"saoBinhLuan\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.id) {",
+                  "  pm.collectionVariables.set('commentId', result.content?.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get comments by room ID (MaPhong)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/binh-luan/lay-binh-luan-theo-phong/{{roomId}}",
+            "description": "Get comments by room ID (MaPhong)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update a comment by ID",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/binh-luan/{{commentId}}",
+            "description": "Update a comment by ID",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"noiDung\": \"Updated comment\",\n  \"saoBinhLuan\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a comment by ID",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/binh-luan/{{commentId}}",
+            "description": "Delete a comment by ID",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": "1"
+    },
+    {
+      "key": "locationId",
+      "value": "1"
+    },
+    {
+      "key": "roomId",
+      "value": "1"
+    },
+    {
+      "key": "bookingId",
+      "value": "1"
+    },
+    {
+      "key": "commentId",
+      "value": "1"
+    }
+  ]
+}
