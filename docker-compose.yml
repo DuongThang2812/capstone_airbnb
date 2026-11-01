@@ -1,9 +1,10 @@
 services:
   mysql_db:
+    profiles: ["local-db"]
     image: mysql:8.0
     container_name: airbnb-db
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-local_only_password}
     ports:
       - "127.0.0.1:3307:3306"
     volumes:
@@ -20,12 +21,9 @@ services:
     container_name: airbnb-api
     environment:
       PORT: 8080
-      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@mysql_db:3306/db_airbnb
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
       JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-604800}
-    depends_on:
-      mysql_db:
-        condition: service_healthy
     ports:
       - "8080:8080"
     volumes:

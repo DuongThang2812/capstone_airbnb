@@ -15,4 +15,4 @@ RUN npm run build
 
 EXPOSE 8080
 
-CMD ["node", "dist/main"]
+CMD ["sh", "-c", "npx prisma db push && node prisma/seed.mjs && node dist/main"]
