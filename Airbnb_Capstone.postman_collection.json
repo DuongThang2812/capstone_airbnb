@@ -1,7 +1,8 @@
 {
   "info": {
-    "name": "Airbnb Capstone RESTful API",
-    "description": "All 36 routes from the six API groups. Run Sign in first to save the bearer token.",
+    "_postman_id": "8ca40b3f-73af-411d-8563-7c6a7f52afd1",
+    "name": "Airbnb Capstone RESTful API — Tài liệu kỹ thuật 36 API",
+    "description": "Bộ 36 API thuộc 6 nhóm Auth, NguoiDung, ViTri, Phong, DatPhong và BinhLuan. Mỗi request có mô tả tham số, quyền truy cập và ví dụ phản hồi 200. Chạy Đăng nhập trước để lưu `{{token}}`; các API tạo mới tự lưu ID vào biến collection. Ví dụ phản hồi là dữ liệu minh họa, không phải bản ghi thực tế.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -9,11 +10,11 @@
       "name": "Auth",
       "item": [
         {
-          "name": "Sign up for a new account",
+          "name": "Đăng ký tài khoản người dùng",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/auth/signup",
-            "description": "Sign up for a new account",
+            "description": "## Chức năng\n\nĐăng ký tài khoản người dùng. Body: name là họ tên, email là địa chỉ đăng nhập, password là mật khẩu; phone, birthday (YYYY-MM-DD) và gender (boolean) là thông tin tùy chọn. role gửi lên không được dùng; tài khoản mới có vai trò USER.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Body JSON | `name` | Có | Họ và tên người dùng. |\n| Body JSON | `email` | Có | Địa chỉ email hợp lệ và duy nhất, dùng để đăng nhập. |\n| Body JSON | `password` | Có | Mật khẩu tài khoản; được băm trước khi lưu. |\n| Body JSON | `phone` | Không | Số điện thoại liên hệ 10 chữ số. |\n| Body JSON | `birthday` | Không | Ngày sinh theo định dạng YYYY-MM-DD. |\n| Body JSON | `gender` | Không | Giới tính dạng boolean theo dữ liệu hệ thống. |\n| Body JSON | `role` | Không | Giá trị gửi lên bị bỏ qua; tài khoản đăng ký luôn có vai trò USER. |",
             "header": [
               {
                 "key": "Content-Type",
@@ -22,7 +23,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"New User\",\n  \"email\": \"new{{$timestamp}}@example.com\",\n  \"password\": \"Password@123\",\n  \"phone\": \"0901234567\",\n  \"birthday\": \"1995-01-15\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
+              "raw": "{\n  \"name\": \"Trần Ngọc Lan Anh\",\n  \"email\": \"lananh.tran{{$timestamp}}@gmail.com\",\n  \"password\": \"MatKhau@2026\",\n  \"phone\": \"0912837465\",\n  \"birthday\": \"1998-06-21\",\n  \"gender\": false,\n  \"role\": \"USER\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -30,7 +31,26 @@
               }
             }
           },
-          "response": [],
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/auth/signup"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"name\": \"Trần Ngọc Lan Anh\",\n    \"email\": \"lananh.tran1234567890@gmail.com\",\n    \"phone\": \"0912837465\",\n    \"birthday\": \"1998-06-21\",\n    \"gender\": false,\n    \"role\": \"USER\",\n    \"avatar\": null\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
           "event": [
             {
               "listen": "test",
@@ -47,11 +67,11 @@
           ]
         },
         {
-          "name": "Sign in",
+          "name": "Đăng nhập và nhận JWT",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/auth/signin",
-            "description": "Sign in",
+            "description": "## Chức năng\n\nĐăng nhập và nhận JWT. Body: email là địa chỉ đã đăng ký, password là mật khẩu. Phản hồi trả về thông tin người dùng và token để dùng trong các API có bảo vệ.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Body JSON | `email` | Có | Địa chỉ email hợp lệ và duy nhất, dùng để đăng nhập. |\n| Body JSON | `password` | Có | Mật khẩu tài khoản; được băm trước khi lưu. |",
             "header": [
               {
                 "key": "Content-Type",
@@ -68,7 +88,26 @@
               }
             }
           },
-          "response": [],
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/auth/signin"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"Nguyễn Văn An\",\n      \"email\": \"an@example.com\",\n      \"phone\": \"0903456781\",\n      \"birthday\": \"1995-04-12\",\n      \"gender\": true,\n      \"role\": \"USER\",\n      \"avatar\": null\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjF9.example-signature\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
           "event": [
             {
               "listen": "test",
@@ -90,20 +129,39 @@
       "name": "NguoiDung",
       "item": [
         {
-          "name": "Get all users",
+          "name": "Lấy danh sách người dùng",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/users",
-            "description": "Get all users"
+            "description": "## Chức năng\n\nLấy danh sách người dùng. Không có tham số đầu vào; danh sách trả về không chứa mật khẩu.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| — | `Không có` | — | API không nhận tham số Path, Query hoặc Body. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/users"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"name\": \"Nguyễn Minh Tuấn\",\n      \"email\": \"minhtuan.nguyen95@gmail.com\",\n      \"phone\": \"0903456781\",\n      \"birthday\": \"1995-04-12\",\n      \"gender\": true,\n      \"role\": \"USER\",\n      \"avatar\": null\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Create a new user",
+          "name": "Tạo người dùng mới",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/users",
-            "description": "Create a new user",
+            "description": "## Chức năng\n\nTạo người dùng mới. Body: name là họ tên, email là địa chỉ duy nhất, password là mật khẩu; phone, birthday (YYYY-MM-DD), gender (boolean) và role là thông tin tùy chọn.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Body JSON | `name` | Có | Họ và tên người dùng. |\n| Body JSON | `email` | Có | Địa chỉ email hợp lệ và duy nhất, dùng để đăng nhập. |\n| Body JSON | `password` | Có | Mật khẩu tài khoản; được băm trước khi lưu. |\n| Body JSON | `phone` | Không | Số điện thoại liên hệ 10 chữ số. |\n| Body JSON | `birthday` | Không | Ngày sinh theo định dạng YYYY-MM-DD. |\n| Body JSON | `gender` | Không | Giới tính dạng boolean theo dữ liệu hệ thống. |\n| Body JSON | `role` | Không | Vai trò tài khoản; khi đăng ký qua signup luôn là USER. |",
             "header": [
               {
                 "key": "Content-Type",
@@ -112,7 +170,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Created User\",\n  \"email\": \"created{{$timestamp}}@example.com\",\n  \"password\": \"Password@123\",\n  \"phone\": \"0901234567\",\n  \"birthday\": \"1995-01-15\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
+              "raw": "{\n  \"name\": \"Võ Quốc Bảo\",\n  \"email\": \"quocbao.vo{{$timestamp}}@gmail.com\",\n  \"password\": \"MatKhau@2026\",\n  \"phone\": \"0903456781\",\n  \"birthday\": \"1994-09-12\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -120,7 +178,26 @@
               }
             }
           },
-          "response": [],
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/users"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"name\": \"Võ Quốc Bảo\",\n    \"email\": \"quocbao.vo1234567890@gmail.com\",\n    \"phone\": \"0903456781\",\n    \"birthday\": \"1994-09-12\",\n    \"gender\": true,\n    \"role\": \"USER\",\n    \"avatar\": null\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
           "event": [
             {
               "listen": "test",
@@ -137,38 +214,95 @@
           ]
         },
         {
-          "name": "Delete a user by ID",
+          "name": "Xóa người dùng theo mã",
           "request": {
             "method": "DELETE",
             "url": "{{baseUrl}}/api/users?id={{userId}}",
-            "description": "Delete a user by ID"
+            "description": "## Chức năng\n\nXóa người dùng theo mã. Query id là mã người dùng nguyên dương cần xóa; các đặt phòng và bình luận liên quan bị xóa theo khóa ngoại.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Query | `id` | Có | Mã người dùng nguyên dương cần xóa. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/api/users?id={{userId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"name\": \"Nguyễn Minh Tuấn\",\n    \"email\": \"minhtuan.nguyen95@gmail.com\",\n    \"phone\": \"0903456781\",\n    \"birthday\": \"1995-04-12\",\n    \"gender\": true,\n    \"role\": \"USER\",\n    \"avatar\": null\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Paginate and search users",
+          "name": "Phân trang và tìm kiếm người dùng",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/users/phan-trang-tim-kiem?pageIndex=1&pageSize=10",
-            "description": "Paginate and search users"
+            "description": "## Chức năng\n\nPhân trang và tìm kiếm người dùng. Query pageIndex là số trang (mặc định 1), pageSize là số bản ghi mỗi trang (mặc định 10), keyword lọc theo họ tên (có thể bỏ trống).\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Query | `pageIndex` | Không | Số trang bắt đầu từ 1; mặc định 1. |\n| Query | `pageSize` | Không | Số bản ghi trên một trang; mặc định 10. |\n| Query | `keyword` | Không | Từ khóa tìm kiếm theo tên; có thể để trống. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/users/phan-trang-tim-kiem?pageIndex=1&pageSize=10"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"pageIndex\": 1,\n    \"pageSize\": 10,\n    \"totalRow\": 1,\n    \"keywords\": \"\",\n    \"data\": [\n      {\n        \"id\": 1,\n        \"name\": \"Nguyễn Minh Tuấn\",\n        \"email\": \"minhtuan.nguyen95@gmail.com\",\n        \"phone\": \"0903456781\",\n        \"birthday\": \"1995-04-12\",\n        \"gender\": true,\n        \"role\": \"USER\",\n        \"avatar\": null\n      }\n    ]\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Search users by name",
+          "name": "Tìm người dùng theo tên",
           "request": {
             "method": "GET",
-            "url": "{{baseUrl}}/api/users/search/An",
-            "description": "Search users by name"
+            "url": "{{baseUrl}}/api/users/search/Minh",
+            "description": "## Chức năng\n\nTìm người dùng theo tên. Path TenNguoiDung là từ khóa họ tên cần tìm; trả về các người dùng có tên chứa từ khóa.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `TenNguoiDung` | Có | Từ khóa họ tên cần tìm, ví dụ Minh. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/users/search/Minh"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"name\": \"Nguyễn Minh Tuấn\",\n      \"email\": \"minhtuan.nguyen95@gmail.com\",\n      \"phone\": \"0903456781\",\n      \"birthday\": \"1995-04-12\",\n      \"gender\": true,\n      \"role\": \"USER\",\n      \"avatar\": null\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Upload an avatar for the signed-in user",
+          "name": "Tải ảnh đại diện của tài khoản đang đăng nhập",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/users/upload-avatar",
-            "description": "Upload an avatar for the signed-in user",
+            "description": "## Chức năng\n\nTải ảnh đại diện của tài khoản đang đăng nhập. Body multipart/form-data: formFile là ảnh JPG, PNG hoặc WebP (tối đa 5 MB). Tài khoản được xác định từ token, không truyền mã người dùng.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Body form-data | `formFile` | Có | Tệp ảnh JPG, PNG hoặc WebP, tối đa 5 MB. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -190,23 +324,61 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/users/upload-avatar"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"name\": \"Nguyễn Minh Tuấn\",\n    \"email\": \"minhtuan.nguyen95@gmail.com\",\n    \"phone\": \"0903456781\",\n    \"birthday\": \"1995-04-12\",\n    \"gender\": true,\n    \"role\": \"USER\",\n    \"avatar\": \"/public/img/avatar.png\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Get user details by ID",
+          "name": "Lấy chi tiết người dùng theo mã",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/users/{{userId}}",
-            "description": "Get user details by ID"
+            "description": "## Chức năng\n\nLấy chi tiết người dùng theo mã. Path id là mã người dùng nguyên dương cần xem; phản hồi không chứa mật khẩu.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã người dùng nguyên dương; lấy từ biến `{{userId}}`. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/users/{{userId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"name\": \"Nguyễn Minh Tuấn\",\n    \"email\": \"minhtuan.nguyen95@gmail.com\",\n    \"phone\": \"0903456781\",\n    \"birthday\": \"1995-04-12\",\n    \"gender\": true,\n    \"role\": \"USER\",\n    \"avatar\": null\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Update a user by ID",
+          "name": "Cập nhật thông tin người dùng theo mã",
           "request": {
             "method": "PUT",
             "url": "{{baseUrl}}/api/users/{{userId}}",
-            "description": "Update a user by ID",
+            "description": "## Chức năng\n\nCập nhật thông tin người dùng theo mã. Path id là mã người dùng nguyên dương. Body có thể gồm name, email, password, phone, birthday (YYYY-MM-DD), gender (boolean), role; cần ít nhất một trường.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã người dùng nguyên dương; lấy từ biến `{{userId}}`. |\n| Body JSON | `name` | Không | Họ và tên người dùng. |\n| Body JSON | `email` | Không | Địa chỉ email hợp lệ và duy nhất, dùng để đăng nhập. |\n| Body JSON | `password` | Không | Mật khẩu tài khoản; được băm trước khi lưu. |\n| Body JSON | `phone` | Không | Số điện thoại liên hệ 10 chữ số. |\n| Body JSON | `birthday` | Không | Ngày sinh theo định dạng YYYY-MM-DD. |\n| Body JSON | `gender` | Không | Giới tính dạng boolean theo dữ liệu hệ thống. |\n| Body JSON | `role` | Không | Vai trò tài khoản; khi đăng ký qua signup luôn là USER. |\n\nCác trường Body đều có thể cập nhật riêng lẻ; JSON mẫu cung cấp đủ trường để tham khảo.",
             "header": [
               {
                 "key": "Content-Type",
@@ -215,7 +387,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Updated User\"\n}",
+              "raw": "{\n  \"name\": \"Nguyễn Minh Tuấn\",\n  \"email\": \"minhtuan.nguyen{{$timestamp}}@gmail.com\",\n  \"password\": \"MatKhauMoi@2026\",\n  \"phone\": \"0903456781\",\n  \"birthday\": \"1995-04-12\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -223,7 +395,26 @@
               }
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "PUT",
+                "url": "{{baseUrl}}/api/users/{{userId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"name\": \"Nguyễn Minh Tuấn\",\n    \"email\": \"minhtuan.nguyen95@gmail.com\",\n    \"phone\": \"0903456781\",\n    \"birthday\": \"1995-04-12\",\n    \"gender\": true,\n    \"role\": \"USER\",\n    \"avatar\": null\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -231,20 +422,39 @@
       "name": "ViTri",
       "item": [
         {
-          "name": "Get all locations",
+          "name": "Lấy danh sách vị trí",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/vi-tri",
-            "description": "Get all locations"
+            "description": "## Chức năng\n\nLấy danh sách vị trí. Không có tham số đầu vào; trả về toàn bộ vị trí du lịch.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| — | `Không có` | — | API không nhận tham số Path, Query hoặc Body. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/vi-tri"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"tenViTri\": \"Phố cổ Hội An\",\n      \"tinhThanh\": \"Quảng Nam\",\n      \"quocGia\": \"Việt Nam\",\n      \"hinhAnh\": \"/public/img/hoi-an.jpg\"\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Create a new location",
+          "name": "Tạo vị trí mới",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/vi-tri",
-            "description": "Create a new location",
+            "description": "## Chức năng\n\nTạo vị trí mới. Body: tenViTri là tên địa điểm, tinhThanh là tỉnh hoặc thành phố, quocGia là quốc gia; hinhAnh là đường dẫn ảnh tùy chọn.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Body JSON | `tenViTri` | Có | Tên địa điểm du lịch. |\n| Body JSON | `tinhThanh` | Có | Tên tỉnh hoặc thành phố. |\n| Body JSON | `quocGia` | Có | Tên quốc gia. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -263,7 +473,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"tenViTri\": \"Quan 3\",\n  \"tinhThanh\": \"TP Ho Chi Minh\",\n  \"quocGia\": \"Viet Nam\"\n}",
+              "raw": "{\n  \"tenViTri\": \"Phố cổ Hội An\",\n  \"tinhThanh\": \"Quảng Nam\",\n  \"quocGia\": \"Việt Nam\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -271,7 +481,26 @@
               }
             }
           },
-          "response": [],
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/vi-tri"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenViTri\": \"Phố cổ Hội An\",\n    \"tinhThanh\": \"Quảng Nam\",\n    \"quocGia\": \"Việt Nam\",\n    \"hinhAnh\": null\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
           "event": [
             {
               "listen": "test",
@@ -288,20 +517,39 @@
           ]
         },
         {
-          "name": "Paginate and search locations by name",
+          "name": "Phân trang và tìm kiếm vị trí",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/vi-tri/phan-trang-tim-kiem?pageIndex=1&pageSize=10",
-            "description": "Paginate and search locations by name"
+            "description": "## Chức năng\n\nPhân trang và tìm kiếm vị trí. Query pageIndex là số trang (mặc định 1), pageSize là số bản ghi mỗi trang (mặc định 10), keyword lọc theo tenViTri.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Query | `pageIndex` | Không | Số trang bắt đầu từ 1; mặc định 1. |\n| Query | `pageSize` | Không | Số bản ghi trên một trang; mặc định 10. |\n| Query | `keyword` | Không | Từ khóa tìm kiếm theo tên; có thể để trống. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/vi-tri/phan-trang-tim-kiem?pageIndex=1&pageSize=10"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"pageIndex\": 1,\n    \"pageSize\": 10,\n    \"totalRow\": 1,\n    \"keywords\": \"\",\n    \"data\": [\n      {\n        \"id\": 1,\n        \"tenViTri\": \"Phố cổ Hội An\",\n        \"tinhThanh\": \"Quảng Nam\",\n        \"quocGia\": \"Việt Nam\",\n        \"hinhAnh\": \"/public/img/hoi-an.jpg\"\n      }\n    ]\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Upload an image for a location by maViTri",
+          "name": "Tải ảnh cho vị trí",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/vi-tri/upload-hinh-vitri?maViTri={{locationId}}",
-            "description": "Upload an image for a location by maViTri",
+            "description": "## Chức năng\n\nTải ảnh cho vị trí. Query maViTri là mã vị trí nguyên dương cần gắn ảnh. Body multipart/form-data: formFile là ảnh JPG, PNG hoặc WebP, tối đa 5 MB.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Query | `maViTri` | Có | Mã vị trí nguyên dương đã tồn tại. |\n| Body form-data | `formFile` | Có | Tệp ảnh JPG, PNG hoặc WebP, tối đa 5 MB. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -323,23 +571,75 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/vi-tri/upload-hinh-vitri?maViTri={{locationId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenViTri\": \"Phố cổ Hội An\",\n    \"tinhThanh\": \"Quảng Nam\",\n    \"quocGia\": \"Việt Nam\",\n    \"hinhAnh\": \"/public/img/hoi-an.jpg\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.hinhAnh) {",
+                  "  pm.collectionVariables.set('locationImage', result.content.hinhAnh);",
+                  "}"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Get location details by ID",
+          "name": "Lấy chi tiết vị trí theo mã",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/vi-tri/{{locationId}}",
-            "description": "Get location details by ID"
+            "description": "## Chức năng\n\nLấy chi tiết vị trí theo mã. Path id là mã vị trí nguyên dương cần xem.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã vị trí nguyên dương; lấy từ biến `{{locationId}}`. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/vi-tri/{{locationId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenViTri\": \"Phố cổ Hội An\",\n    \"tinhThanh\": \"Quảng Nam\",\n    \"quocGia\": \"Việt Nam\",\n    \"hinhAnh\": \"/public/img/hoi-an.jpg\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Update a location by ID",
+          "name": "Cập nhật vị trí theo mã",
           "request": {
             "method": "PUT",
             "url": "{{baseUrl}}/api/vi-tri/{{locationId}}",
-            "description": "Update a location by ID",
+            "description": "## Chức năng\n\nCập nhật vị trí theo mã. Path id là mã vị trí nguyên dương. Body có thể gồm tenViTri, tinhThanh, quocGia, hinhAnh; cần ít nhất một trường.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã vị trí nguyên dương; lấy từ biến `{{locationId}}`. |\n| Body JSON | `tenViTri` | Không | Tên địa điểm du lịch. |\n| Body JSON | `tinhThanh` | Không | Tên tỉnh hoặc thành phố. |\n| Body JSON | `quocGia` | Không | Tên quốc gia. |\n| Body JSON | `hinhAnh` | Không | Đường dẫn ảnh công khai dạng /public/img/..., có thể cập nhật bằng API upload. |\n\nCác trường Body đều có thể cập nhật riêng lẻ; JSON mẫu cung cấp đủ trường để tham khảo.",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -358,7 +658,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"tenViTri\": \"Quan 3 moi\"\n}",
+              "raw": "{\n  \"tenViTri\": \"Phố cổ Hội An\",\n  \"tinhThanh\": \"Quảng Nam\",\n  \"quocGia\": \"Việt Nam\",\n  \"hinhAnh\": \"{{locationImage}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -366,14 +666,33 @@
               }
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "PUT",
+                "url": "{{baseUrl}}/api/vi-tri/{{locationId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenViTri\": \"Phố cổ Hội An\",\n    \"tinhThanh\": \"Quảng Nam\",\n    \"quocGia\": \"Việt Nam\",\n    \"hinhAnh\": \"/public/img/hoi-an.jpg\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Delete a location by ID",
+          "name": "Xóa vị trí theo mã",
           "request": {
             "method": "DELETE",
             "url": "{{baseUrl}}/api/vi-tri/{{locationId}}",
-            "description": "Delete a location by ID",
+            "description": "## Chức năng\n\nXóa vị trí theo mã. Path id là mã vị trí nguyên dương cần xóa; phòng thuộc vị trí và dữ liệu liên quan bị xóa theo khóa ngoại.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã vị trí nguyên dương; lấy từ biến `{{locationId}}`. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -385,7 +704,26 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/api/vi-tri/{{locationId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenViTri\": \"Phố cổ Hội An\",\n    \"tinhThanh\": \"Quảng Nam\",\n    \"quocGia\": \"Việt Nam\",\n    \"hinhAnh\": \"/public/img/hoi-an.jpg\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -393,20 +731,39 @@
       "name": "Phong",
       "item": [
         {
-          "name": "Get all rooms",
+          "name": "Lấy danh sách phòng thuê",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/phong-thue",
-            "description": "Get all rooms"
+            "description": "## Chức năng\n\nLấy danh sách phòng thuê. Không có tham số đầu vào; trả về toàn bộ phòng thuê.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| — | `Không có` | — | API không nhận tham số Path, Query hoặc Body. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/phong-thue"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n      \"khach\": 4,\n      \"phongNgu\": 2,\n      \"giuong\": 2,\n      \"phongTam\": 1,\n      \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n      \"giaTien\": 950000,\n      \"mayGiat\": true,\n      \"banLa\": true,\n      \"tivi\": true,\n      \"dieuHoa\": true,\n      \"wifi\": true,\n      \"bep\": true,\n      \"doXe\": true,\n      \"hoBoi\": false,\n      \"banUi\": true,\n      \"maViTri\": 1,\n      \"hinhAnh\": \"/public/img/the-chill-homestay.jpg\"\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Create a new room",
+          "name": "Tạo phòng thuê mới",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/phong-thue",
-            "description": "Create a new room",
+            "description": "## Chức năng\n\nTạo phòng thuê mới. Body: tenPhong là tên phòng; khach, phongNgu, giuong, phongTam là sức chứa và số lượng tiện ích; moTa, giaTien là mô tả và giá; mayGiat, banLa, tivi, dieuHoa, wifi, bep, doXe, hoBoi, banUi là các cờ tiện nghi; maViTri là mã vị trí tồn tại; hinhAnh là đường dẫn ảnh tùy chọn.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Body JSON | `tenPhong` | Có | Tên phòng, căn hộ hoặc homestay. |\n| Body JSON | `khach` | Có | Số khách tối đa, số nguyên dương. |\n| Body JSON | `phongNgu` | Có | Số phòng ngủ, số nguyên không âm. |\n| Body JSON | `giuong` | Có | Số giường, số nguyên không âm. |\n| Body JSON | `phongTam` | Có | Số phòng tắm, số nguyên không âm. |\n| Body JSON | `moTa` | Có | Mô tả chi tiết về nơi lưu trú. |\n| Body JSON | `giaTien` | Có | Giá thuê phòng, số nguyên không âm. |\n| Body JSON | `mayGiat` | Có | Có máy giặt hay không (boolean). |\n| Body JSON | `banLa` | Có | Có bàn là hay không (boolean). |\n| Body JSON | `tivi` | Có | Có tivi hay không (boolean). |\n| Body JSON | `dieuHoa` | Có | Có điều hòa hay không (boolean). |\n| Body JSON | `wifi` | Có | Có wifi hay không (boolean). |\n| Body JSON | `bep` | Có | Có bếp hay không (boolean). |\n| Body JSON | `doXe` | Có | Có chỗ đỗ xe hay không (boolean). |\n| Body JSON | `hoBoi` | Có | Có hồ bơi hay không (boolean). |\n| Body JSON | `banUi` | Có | Có bàn ủi hay không (boolean). |\n| Body JSON | `maViTri` | Có | Mã vị trí nguyên dương đã tồn tại. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -425,7 +782,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"tenPhong\": \"Can ho moi\",\n  \"khach\": 2,\n  \"phongNgu\": 1,\n  \"giuong\": 1,\n  \"phongTam\": 1,\n  \"moTa\": \"Can ho sach se\",\n  \"giaTien\": 900000,\n  \"mayGiat\": true,\n  \"banLa\": true,\n  \"tivi\": true,\n  \"dieuHoa\": true,\n  \"wifi\": true,\n  \"bep\": true,\n  \"doXe\": false,\n  \"hoBoi\": false,\n  \"banUi\": false,\n  \"maViTri\": {{locationId}}\n}",
+              "raw": "{\n  \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n  \"khach\": 4,\n  \"phongNgu\": 2,\n  \"giuong\": 2,\n  \"phongTam\": 1,\n  \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n  \"giaTien\": 950000,\n  \"mayGiat\": true,\n  \"banLa\": true,\n  \"tivi\": true,\n  \"dieuHoa\": true,\n  \"wifi\": true,\n  \"bep\": true,\n  \"doXe\": true,\n  \"hoBoi\": false,\n  \"banUi\": true,\n  \"maViTri\": {{locationId}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -433,7 +790,26 @@
               }
             }
           },
-          "response": [],
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/phong-thue"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n    \"khach\": 4,\n    \"phongNgu\": 2,\n    \"giuong\": 2,\n    \"phongTam\": 1,\n    \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n    \"giaTien\": 950000,\n    \"mayGiat\": true,\n    \"banLa\": true,\n    \"tivi\": true,\n    \"dieuHoa\": true,\n    \"wifi\": true,\n    \"bep\": true,\n    \"doXe\": true,\n    \"hoBoi\": false,\n    \"banUi\": true,\n    \"maViTri\": 1,\n    \"hinhAnh\": null\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
           "event": [
             {
               "listen": "test",
@@ -450,29 +826,67 @@
           ]
         },
         {
-          "name": "Get rooms by location ID (maViTri)",
+          "name": "Lấy phòng thuê theo vị trí",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/phong-thue/lay-phong-theo-vi-tri?maViTri={{locationId}}",
-            "description": "Get rooms by location ID (maViTri)"
+            "description": "## Chức năng\n\nLấy phòng thuê theo vị trí. Query maViTri là mã vị trí nguyên dương để lọc danh sách phòng.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Query | `maViTri` | Có | Mã vị trí nguyên dương đã tồn tại. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/phong-thue/lay-phong-theo-vi-tri?maViTri={{locationId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n      \"khach\": 4,\n      \"phongNgu\": 2,\n      \"giuong\": 2,\n      \"phongTam\": 1,\n      \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n      \"giaTien\": 950000,\n      \"mayGiat\": true,\n      \"banLa\": true,\n      \"tivi\": true,\n      \"dieuHoa\": true,\n      \"wifi\": true,\n      \"bep\": true,\n      \"doXe\": true,\n      \"hoBoi\": false,\n      \"banUi\": true,\n      \"maViTri\": 1,\n      \"hinhAnh\": \"/public/img/the-chill-homestay.jpg\"\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Paginate and search rooms by name",
+          "name": "Phân trang và tìm kiếm phòng thuê",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/phong-thue/phan-trang-tim-kiem?pageIndex=1&pageSize=10",
-            "description": "Paginate and search rooms by name"
+            "description": "## Chức năng\n\nPhân trang và tìm kiếm phòng thuê. Query pageIndex là số trang (mặc định 1), pageSize là số bản ghi mỗi trang (mặc định 10), keyword lọc theo tenPhong.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Query | `pageIndex` | Không | Số trang bắt đầu từ 1; mặc định 1. |\n| Query | `pageSize` | Không | Số bản ghi trên một trang; mặc định 10. |\n| Query | `keyword` | Không | Từ khóa tìm kiếm theo tên; có thể để trống. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/phong-thue/phan-trang-tim-kiem?pageIndex=1&pageSize=10"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"pageIndex\": 1,\n    \"pageSize\": 10,\n    \"totalRow\": 1,\n    \"keywords\": \"\",\n    \"data\": [\n      {\n        \"id\": 1,\n        \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n        \"khach\": 4,\n        \"phongNgu\": 2,\n        \"giuong\": 2,\n        \"phongTam\": 1,\n        \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n        \"giaTien\": 950000,\n        \"mayGiat\": true,\n        \"banLa\": true,\n        \"tivi\": true,\n        \"dieuHoa\": true,\n        \"wifi\": true,\n        \"bep\": true,\n        \"doXe\": true,\n        \"hoBoi\": false,\n        \"banUi\": true,\n        \"maViTri\": 1,\n        \"hinhAnh\": \"/public/img/the-chill-homestay.jpg\"\n      }\n    ]\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Upload an image for a room by maPhong",
+          "name": "Tải ảnh cho phòng thuê",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/phong-thue/upload-hinh-phong?maPhong={{roomId}}",
-            "description": "Upload an image for a room by maPhong",
+            "description": "## Chức năng\n\nTải ảnh cho phòng thuê. Query maPhong là mã phòng nguyên dương cần gắn ảnh. Body multipart/form-data: formFile là ảnh JPG, PNG hoặc WebP, tối đa 5 MB.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Query | `maPhong` | Có | Mã phòng thuê nguyên dương đã tồn tại. |\n| Body form-data | `formFile` | Có | Tệp ảnh JPG, PNG hoặc WebP, tối đa 5 MB. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -494,23 +908,75 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/phong-thue/upload-hinh-phong?maPhong={{roomId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n    \"khach\": 4,\n    \"phongNgu\": 2,\n    \"giuong\": 2,\n    \"phongTam\": 1,\n    \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n    \"giaTien\": 950000,\n    \"mayGiat\": true,\n    \"banLa\": true,\n    \"tivi\": true,\n    \"dieuHoa\": true,\n    \"wifi\": true,\n    \"bep\": true,\n    \"doXe\": true,\n    \"hoBoi\": false,\n    \"banUi\": true,\n    \"maViTri\": 1,\n    \"hinhAnh\": \"/public/img/the-chill-homestay.jpg\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const result = pm.response.json();",
+                  "if (pm.response.code === 200 && result.content?.hinhAnh) {",
+                  "  pm.collectionVariables.set('roomImage', result.content.hinhAnh);",
+                  "}"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Get room details by ID",
+          "name": "Lấy chi tiết phòng thuê theo mã",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/phong-thue/{{roomId}}",
-            "description": "Get room details by ID"
+            "description": "## Chức năng\n\nLấy chi tiết phòng thuê theo mã. Path id là mã phòng nguyên dương cần xem.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã phòng nguyên dương; lấy từ biến `{{roomId}}`. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/phong-thue/{{roomId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n    \"khach\": 4,\n    \"phongNgu\": 2,\n    \"giuong\": 2,\n    \"phongTam\": 1,\n    \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n    \"giaTien\": 950000,\n    \"mayGiat\": true,\n    \"banLa\": true,\n    \"tivi\": true,\n    \"dieuHoa\": true,\n    \"wifi\": true,\n    \"bep\": true,\n    \"doXe\": true,\n    \"hoBoi\": false,\n    \"banUi\": true,\n    \"maViTri\": 1,\n    \"hinhAnh\": \"/public/img/the-chill-homestay.jpg\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Update a room by ID",
+          "name": "Cập nhật phòng thuê theo mã",
           "request": {
             "method": "PUT",
             "url": "{{baseUrl}}/api/phong-thue/{{roomId}}",
-            "description": "Update a room by ID",
+            "description": "## Chức năng\n\nCập nhật phòng thuê theo mã. Path id là mã phòng nguyên dương. Body có thể gồm toàn bộ trường của phòng: tenPhong, khach, phongNgu, giuong, phongTam, moTa, giaTien, các cờ tiện nghi, maViTri và hinhAnh; cần ít nhất một trường.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã phòng nguyên dương; lấy từ biến `{{roomId}}`. |\n| Body JSON | `tenPhong` | Không | Tên phòng, căn hộ hoặc homestay. |\n| Body JSON | `khach` | Không | Số khách tối đa, số nguyên dương. |\n| Body JSON | `phongNgu` | Không | Số phòng ngủ, số nguyên không âm. |\n| Body JSON | `giuong` | Không | Số giường, số nguyên không âm. |\n| Body JSON | `phongTam` | Không | Số phòng tắm, số nguyên không âm. |\n| Body JSON | `moTa` | Không | Mô tả chi tiết về nơi lưu trú. |\n| Body JSON | `giaTien` | Không | Giá thuê phòng, số nguyên không âm. |\n| Body JSON | `mayGiat` | Không | Có máy giặt hay không (boolean). |\n| Body JSON | `banLa` | Không | Có bàn là hay không (boolean). |\n| Body JSON | `tivi` | Không | Có tivi hay không (boolean). |\n| Body JSON | `dieuHoa` | Không | Có điều hòa hay không (boolean). |\n| Body JSON | `wifi` | Không | Có wifi hay không (boolean). |\n| Body JSON | `bep` | Không | Có bếp hay không (boolean). |\n| Body JSON | `doXe` | Không | Có chỗ đỗ xe hay không (boolean). |\n| Body JSON | `hoBoi` | Không | Có hồ bơi hay không (boolean). |\n| Body JSON | `banUi` | Không | Có bàn ủi hay không (boolean). |\n| Body JSON | `maViTri` | Không | Mã vị trí nguyên dương đã tồn tại. |\n| Body JSON | `hinhAnh` | Không | Đường dẫn ảnh công khai dạng /public/img/..., có thể cập nhật bằng API upload. |\n\nCác trường Body đều có thể cập nhật riêng lẻ; JSON mẫu cung cấp đủ trường để tham khảo.",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -529,7 +995,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"giaTien\": 950000\n}",
+              "raw": "{\n  \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n  \"khach\": 4,\n  \"phongNgu\": 2,\n  \"giuong\": 2,\n  \"phongTam\": 1,\n  \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n  \"giaTien\": 950000,\n  \"mayGiat\": true,\n  \"banLa\": true,\n  \"tivi\": true,\n  \"dieuHoa\": true,\n  \"wifi\": true,\n  \"bep\": true,\n  \"doXe\": true,\n  \"hoBoi\": false,\n  \"banUi\": true,\n  \"maViTri\": {{locationId}},\n  \"hinhAnh\": \"{{roomImage}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -537,14 +1003,33 @@
               }
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "PUT",
+                "url": "{{baseUrl}}/api/phong-thue/{{roomId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n    \"khach\": 4,\n    \"phongNgu\": 2,\n    \"giuong\": 2,\n    \"phongTam\": 1,\n    \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n    \"giaTien\": 950000,\n    \"mayGiat\": true,\n    \"banLa\": true,\n    \"tivi\": true,\n    \"dieuHoa\": true,\n    \"wifi\": true,\n    \"bep\": true,\n    \"doXe\": true,\n    \"hoBoi\": false,\n    \"banUi\": true,\n    \"maViTri\": 1,\n    \"hinhAnh\": \"/public/img/the-chill-homestay.jpg\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Delete a room by ID",
+          "name": "Xóa phòng thuê theo mã",
           "request": {
             "method": "DELETE",
             "url": "{{baseUrl}}/api/phong-thue/{{roomId}}",
-            "description": "Delete a room by ID",
+            "description": "## Chức năng\n\nXóa phòng thuê theo mã. Path id là mã phòng nguyên dương cần xóa; đặt phòng và bình luận liên quan bị xóa theo khóa ngoại.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã phòng nguyên dương; lấy từ biến `{{roomId}}`. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -556,7 +1041,26 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/api/phong-thue/{{roomId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"tenPhong\": \"The Chill Homestay Đà Lạt\",\n    \"khach\": 4,\n    \"phongNgu\": 2,\n    \"giuong\": 2,\n    \"phongTam\": 1,\n    \"moTa\": \"Homestay nhìn ra Hồ Tuyền Lâm, không gian yên tĩnh và đầy đủ tiện nghi.\",\n    \"giaTien\": 950000,\n    \"mayGiat\": true,\n    \"banLa\": true,\n    \"tivi\": true,\n    \"dieuHoa\": true,\n    \"wifi\": true,\n    \"bep\": true,\n    \"doXe\": true,\n    \"hoBoi\": false,\n    \"banUi\": true,\n    \"maViTri\": 1,\n    \"hinhAnh\": \"/public/img/the-chill-homestay.jpg\"\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -564,20 +1068,39 @@
       "name": "DatPhong",
       "item": [
         {
-          "name": "Get all bookings",
+          "name": "Lấy danh sách đặt phòng",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/dat-phong",
-            "description": "Get all bookings"
+            "description": "## Chức năng\n\nLấy danh sách đặt phòng. Không có tham số đầu vào; trả về toàn bộ đơn đặt phòng.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| — | `Không có` | — | API không nhận tham số Path, Query hoặc Body. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/dat-phong"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"maPhong\": 1,\n      \"ngayDen\": \"2027-01-10T14:00:00.000Z\",\n      \"ngayDi\": \"2027-01-12T12:00:00.000Z\",\n      \"soLuongKhach\": 3,\n      \"maNguoiDat\": 1\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Create a new booking",
+          "name": "Tạo đơn đặt phòng",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/dat-phong",
-            "description": "Create a new booking",
+            "description": "## Chức năng\n\nTạo đơn đặt phòng. Body: maPhong là mã phòng tồn tại, ngayDen và ngayDi là thời điểm ISO 8601 (ngày đi sau ngày đến), soLuongKhach là số khách nguyên dương, maNguoiDat là mã người dùng tồn tại.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Body JSON | `maPhong` | Có | Mã phòng thuê nguyên dương đã tồn tại. |\n| Body JSON | `ngayDen` | Có | Thời điểm nhận phòng theo ISO 8601. |\n| Body JSON | `ngayDi` | Có | Thời điểm trả phòng theo ISO 8601, sau ngayDen. |\n| Body JSON | `soLuongKhach` | Có | Số lượng khách, số nguyên dương. |\n| Body JSON | `maNguoiDat` | Có | Mã người dùng đặt phòng đã tồn tại. |",
             "header": [
               {
                 "key": "Content-Type",
@@ -586,7 +1109,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"maPhong\": {{roomId}},\n  \"ngayDen\": \"2026-11-10T14:00:00.000Z\",\n  \"ngayDi\": \"2026-11-12T12:00:00.000Z\",\n  \"soLuongKhach\": 2,\n  \"maNguoiDat\": {{userId}}\n}",
+              "raw": "{\n  \"maPhong\": {{roomId}},\n  \"ngayDen\": \"2027-01-10T14:00:00.000Z\",\n  \"ngayDi\": \"2027-01-12T12:00:00.000Z\",\n  \"soLuongKhach\": 2,\n  \"maNguoiDat\": {{userId}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -594,7 +1117,26 @@
               }
             }
           },
-          "response": [],
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/dat-phong"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"maPhong\": 1,\n    \"ngayDen\": \"2027-01-10T14:00:00.000Z\",\n    \"ngayDi\": \"2027-01-12T12:00:00.000Z\",\n    \"soLuongKhach\": 2,\n    \"maNguoiDat\": 1\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
           "event": [
             {
               "listen": "test",
@@ -611,29 +1153,67 @@
           ]
         },
         {
-          "name": "Get bookings by user ID (MaNguoiDung)",
+          "name": "Lấy đặt phòng theo người dùng",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/dat-phong/lay-theo-nguoi-dung/{{userId}}",
-            "description": "Get bookings by user ID (MaNguoiDung)"
+            "description": "## Chức năng\n\nLấy đặt phòng theo người dùng. Path MaNguoiDung là mã người dùng nguyên dương để lọc các đơn đặt phòng.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `MaNguoiDung` | Có | Mã người dùng nguyên dương; lấy từ biến `{{userId}}`. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/dat-phong/lay-theo-nguoi-dung/{{userId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"maPhong\": 1,\n      \"ngayDen\": \"2027-01-10T14:00:00.000Z\",\n      \"ngayDi\": \"2027-01-12T12:00:00.000Z\",\n      \"soLuongKhach\": 3,\n      \"maNguoiDat\": 1\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Get booking details by ID",
+          "name": "Lấy chi tiết đặt phòng theo mã",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}",
-            "description": "Get booking details by ID"
+            "description": "## Chức năng\n\nLấy chi tiết đặt phòng theo mã. Path id là mã đơn đặt phòng nguyên dương cần xem.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã đặt phòng nguyên dương; lấy từ biến `{{bookingId}}`. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"maPhong\": 1,\n    \"ngayDen\": \"2027-01-10T14:00:00.000Z\",\n    \"ngayDi\": \"2027-01-12T12:00:00.000Z\",\n    \"soLuongKhach\": 3,\n    \"maNguoiDat\": 1\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Update a booking by ID",
+          "name": "Cập nhật đặt phòng theo mã",
           "request": {
             "method": "PUT",
             "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}",
-            "description": "Update a booking by ID",
+            "description": "## Chức năng\n\nCập nhật đặt phòng theo mã. Path id là mã đơn đặt phòng nguyên dương. Body có thể gồm maPhong, ngayDen, ngayDi, soLuongKhach, maNguoiDat; cần ít nhất một trường và ngày đi phải sau ngày đến.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã đặt phòng nguyên dương; lấy từ biến `{{bookingId}}`. |\n| Body JSON | `maPhong` | Không | Mã phòng thuê nguyên dương đã tồn tại. |\n| Body JSON | `ngayDen` | Không | Thời điểm nhận phòng theo ISO 8601. |\n| Body JSON | `ngayDi` | Không | Thời điểm trả phòng theo ISO 8601, sau ngayDen. |\n| Body JSON | `soLuongKhach` | Không | Số lượng khách, số nguyên dương. |\n| Body JSON | `maNguoiDat` | Không | Mã người dùng đặt phòng đã tồn tại. |\n\nCác trường Body đều có thể cập nhật riêng lẻ; JSON mẫu cung cấp đủ trường để tham khảo.",
             "header": [
               {
                 "key": "Content-Type",
@@ -642,7 +1222,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"soLuongKhach\": 3\n}",
+              "raw": "{\n  \"maPhong\": {{roomId}},\n  \"ngayDen\": \"2027-01-10T14:00:00.000Z\",\n  \"ngayDi\": \"2027-01-12T12:00:00.000Z\",\n  \"soLuongKhach\": 3,\n  \"maNguoiDat\": {{userId}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -650,16 +1230,54 @@
               }
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "PUT",
+                "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"maPhong\": 1,\n    \"ngayDen\": \"2027-01-10T14:00:00.000Z\",\n    \"ngayDi\": \"2027-01-12T12:00:00.000Z\",\n    \"soLuongKhach\": 3,\n    \"maNguoiDat\": 1\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Delete a booking by ID",
+          "name": "Xóa đặt phòng theo mã",
           "request": {
             "method": "DELETE",
             "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}",
-            "description": "Delete a booking by ID"
+            "description": "## Chức năng\n\nXóa đặt phòng theo mã. Path id là mã đơn đặt phòng nguyên dương cần xóa.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã đặt phòng nguyên dương; lấy từ biến `{{bookingId}}`. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/api/dat-phong/{{bookingId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"maPhong\": 1,\n    \"ngayDen\": \"2027-01-10T14:00:00.000Z\",\n    \"ngayDi\": \"2027-01-12T12:00:00.000Z\",\n    \"soLuongKhach\": 3,\n    \"maNguoiDat\": 1\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         }
       ]
     },
@@ -667,20 +1285,39 @@
       "name": "BinhLuan",
       "item": [
         {
-          "name": "Get all comments",
+          "name": "Lấy danh sách bình luận",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/binh-luan",
-            "description": "Get all comments"
+            "description": "## Chức năng\n\nLấy danh sách bình luận. Không có tham số đầu vào; trả về toàn bộ bình luận.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| — | `Không có` | — | API không nhận tham số Path, Query hoặc Body. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/binh-luan"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"maPhong\": 1,\n      \"maNguoiBinhLuan\": 1,\n      \"ngayBinhLuan\": \"2026-11-02T10:00:00.000Z\",\n      \"noiDung\": \"Phòng sạch sẽ, ban công thoáng và chủ nhà hỗ trợ rất nhiệt tình.\",\n      \"saoBinhLuan\": 5\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Add a new comment for a room",
+          "name": "Thêm bình luận cho phòng thuê",
           "request": {
             "method": "POST",
             "url": "{{baseUrl}}/api/binh-luan",
-            "description": "Add a new comment for a room",
+            "description": "## Chức năng\n\nThêm bình luận cho phòng thuê. Body: maPhong là mã phòng tồn tại, maNguoiBinhLuan là mã người dùng tồn tại, ngayBinhLuan là thời điểm ISO 8601 tùy chọn (mặc định hiện tại), noiDung là nội dung nhận xét, saoBinhLuan là số sao nguyên từ 1 đến 5.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Body JSON | `maPhong` | Có | Mã phòng thuê nguyên dương đã tồn tại. |\n| Body JSON | `maNguoiBinhLuan` | Có | Mã người dùng viết bình luận đã tồn tại. |\n| Body JSON | `ngayBinhLuan` | Không | Thời điểm bình luận theo ISO 8601; nếu bỏ trống dùng thời điểm hiện tại. |\n| Body JSON | `noiDung` | Có | Nội dung nhận xét, không được để trống. |\n| Body JSON | `saoBinhLuan` | Có | Điểm đánh giá nguyên từ 1 đến 5. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -699,7 +1336,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"maPhong\": {{roomId}},\n  \"maNguoiBinhLuan\": {{userId}},\n  \"noiDung\": \"The room is clean and comfortable\",\n  \"saoBinhLuan\": 5\n}",
+              "raw": "{\n  \"maPhong\": {{roomId}},\n  \"maNguoiBinhLuan\": {{userId}},\n  \"ngayBinhLuan\": \"2026-11-02T10:00:00.000Z\",\n  \"noiDung\": \"Phòng rất sạch sẽ, view đẹp và chủ nhà hỗ trợ nhiệt tình.\",\n  \"saoBinhLuan\": 5\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -707,7 +1344,26 @@
               }
             }
           },
-          "response": [],
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "POST",
+                "url": "{{baseUrl}}/api/binh-luan"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"maPhong\": 1,\n    \"maNguoiBinhLuan\": 1,\n    \"ngayBinhLuan\": \"2026-11-02T10:00:00.000Z\",\n    \"noiDung\": \"Phòng rất sạch sẽ, view đẹp và chủ nhà hỗ trợ nhiệt tình.\",\n    \"saoBinhLuan\": 5\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ],
           "event": [
             {
               "listen": "test",
@@ -724,20 +1380,39 @@
           ]
         },
         {
-          "name": "Get comments by room ID (MaPhong)",
+          "name": "Lấy bình luận theo phòng thuê",
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/binh-luan/lay-binh-luan-theo-phong/{{roomId}}",
-            "description": "Get comments by room ID (MaPhong)"
+            "description": "## Chức năng\n\nLấy bình luận theo phòng thuê. Path MaPhong là mã phòng nguyên dương; phản hồi có thêm tenNguoiBinhLuan và avatar của người viết.\n\n## Xác thực\n\nPublic — không cần JWT Bearer Token.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `MaPhong` | Có | Mã phòng nguyên dương; lấy từ biến `{{roomId}}`. |"
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "GET",
+                "url": "{{baseUrl}}/api/binh-luan/lay-binh-luan-theo-phong/{{roomId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": [\n    {\n      \"id\": 1,\n      \"maPhong\": 1,\n      \"maNguoiBinhLuan\": 1,\n      \"ngayBinhLuan\": \"2026-11-02T10:00:00.000Z\",\n      \"noiDung\": \"Phòng sạch sẽ, ban công thoáng và chủ nhà hỗ trợ rất nhiệt tình.\",\n      \"saoBinhLuan\": 5,\n      \"tenNguoiBinhLuan\": \"Nguyễn Minh Tuấn\",\n      \"avatar\": null\n    }\n  ],\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Update a comment by ID",
+          "name": "Cập nhật bình luận theo mã",
           "request": {
             "method": "PUT",
             "url": "{{baseUrl}}/api/binh-luan/{{commentId}}",
-            "description": "Update a comment by ID",
+            "description": "## Chức năng\n\nCập nhật bình luận theo mã. Path id là mã bình luận nguyên dương. Body có thể gồm noiDung (nội dung nhận xét) và saoBinhLuan (số sao nguyên từ 1 đến 5); cần ít nhất một trường.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã bình luận nguyên dương; lấy từ biến `{{commentId}}`. |\n| Body JSON | `noiDung` | Không | Nội dung nhận xét, không được để trống. |\n| Body JSON | `saoBinhLuan` | Không | Điểm đánh giá nguyên từ 1 đến 5. |\n\nCác trường Body đều có thể cập nhật riêng lẻ; JSON mẫu cung cấp đủ trường để tham khảo.",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -756,7 +1431,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"noiDung\": \"Updated comment\",\n  \"saoBinhLuan\": 4\n}",
+              "raw": "{\n  \"noiDung\": \"Phòng sạch sẽ, ban công thoáng và chủ nhà hỗ trợ rất nhiệt tình.\",\n  \"saoBinhLuan\": 5\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -764,14 +1439,33 @@
               }
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "PUT",
+                "url": "{{baseUrl}}/api/binh-luan/{{commentId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"maPhong\": 1,\n    \"maNguoiBinhLuan\": 1,\n    \"ngayBinhLuan\": \"2026-11-02T10:00:00.000Z\",\n    \"noiDung\": \"Phòng sạch sẽ, ban công thoáng và chủ nhà hỗ trợ rất nhiệt tình.\",\n    \"saoBinhLuan\": 5\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         },
         {
-          "name": "Delete a comment by ID",
+          "name": "Xóa bình luận theo mã",
           "request": {
             "method": "DELETE",
             "url": "{{baseUrl}}/api/binh-luan/{{commentId}}",
-            "description": "Delete a comment by ID",
+            "description": "## Chức năng\n\nXóa bình luận theo mã. Path id là mã bình luận nguyên dương cần xóa.\n\n## Xác thực\n\nBearer Token — gửi `Authorization: Bearer {{token}}`. Chạy request **Đăng nhập và nhận JWT** trước.\n\n## Tham số đầu vào\n\n| Vị trí | Tên tham số | Bắt buộc | Ý nghĩa |\n|---|---|---|---|\n| Path | `id` | Có | Mã bình luận nguyên dương; lấy từ biến `{{commentId}}`. |",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -783,7 +1477,26 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "200 OK — Thành công",
+              "originalRequest": {
+                "method": "DELETE",
+                "url": "{{baseUrl}}/api/binh-luan/{{commentId}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"statusCode\": 200,\n  \"message\": \"Thành công\",\n  \"content\": {\n    \"id\": 1,\n    \"maPhong\": 1,\n    \"maNguoiBinhLuan\": 1,\n    \"ngayBinhLuan\": \"2026-11-02T10:00:00.000Z\",\n    \"noiDung\": \"Phòng sạch sẽ, ban công thoáng và chủ nhà hỗ trợ rất nhiệt tình.\",\n    \"saoBinhLuan\": 5\n  },\n  \"dateTime\": \"2026-11-02T10:00:00.000Z\"\n}"
+            }
+          ]
         }
       ]
     }
@@ -816,6 +1529,14 @@
     {
       "key": "commentId",
       "value": "1"
+    },
+    {
+      "key": "locationImage",
+      "value": ""
+    },
+    {
+      "key": "roomImage",
+      "value": ""
     }
   ]
 }
