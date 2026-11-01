@@ -1,0 +1,35 @@
+services:
+  mysql_db:
+    image: mysql:8.0
+    container_name: airbnb-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - airbnb_db_data:/var/lib/mysql
+      - ./db_airbnb.sql:/docker-entrypoint-initdb.d/db_airbnb.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  airbnb_api:
+    build: .
+    container_name: airbnb-api
+    environment:
+      PORT: 8080
+      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@mysql_db:3306/db_airbnb
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-604800}
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./public/img:/app/public/img
+
+volumes:
+  airbnb_db_data:
