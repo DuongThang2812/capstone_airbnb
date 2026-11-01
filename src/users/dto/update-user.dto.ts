@@ -7,7 +7,7 @@ export class UpdateUserDto {
   @ApiPropertyOptional({ example: 'a@example.com' })
   email?: string;
 
-  @ApiPropertyOptional({ example: 'Password@123' })
+  @ApiPropertyOptional({ example: '123456' })
   password?: string;
 
   @ApiPropertyOptional({ example: '0901234567' })

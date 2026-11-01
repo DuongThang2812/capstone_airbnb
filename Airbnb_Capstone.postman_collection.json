@@ -23,7 +23,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Trần Ngọc Lan Anh\",\n  \"email\": \"lananh.tran{{$timestamp}}@gmail.com\",\n  \"password\": \"MatKhau@2026\",\n  \"phone\": \"0912837465\",\n  \"birthday\": \"1998-06-21\",\n  \"gender\": false,\n  \"role\": \"USER\"\n}",
+              "raw": "{\n  \"name\": \"Trần Ngọc Lan Anh\",\n  \"email\": \"lananh.tran{{$timestamp}}@gmail.com\",\n  \"password\": \"123456\",\n  \"phone\": \"0912837465\",\n  \"birthday\": \"1998-06-21\",\n  \"gender\": false,\n  \"role\": \"USER\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -80,7 +80,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"an@example.com\",\n  \"password\": \"Password@123\"\n}",
+              "raw": "{\n  \"email\": \"an@example.com\",\n  \"password\": \"123456\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -170,7 +170,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Võ Quốc Bảo\",\n  \"email\": \"quocbao.vo{{$timestamp}}@gmail.com\",\n  \"password\": \"MatKhau@2026\",\n  \"phone\": \"0903456781\",\n  \"birthday\": \"1994-09-12\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
+              "raw": "{\n  \"name\": \"Võ Quốc Bảo\",\n  \"email\": \"quocbao.vo{{$timestamp}}@gmail.com\",\n  \"password\": \"123456\",\n  \"phone\": \"0903456781\",\n  \"birthday\": \"1994-09-12\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -387,7 +387,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Nguyễn Minh Tuấn\",\n  \"email\": \"minhtuan.nguyen{{$timestamp}}@gmail.com\",\n  \"password\": \"MatKhauMoi@2026\",\n  \"phone\": \"0903456781\",\n  \"birthday\": \"1995-04-12\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
+              "raw": "{\n  \"name\": \"Nguyễn Minh Tuấn\",\n  \"email\": \"minhtuan.nguyen{{$timestamp}}@gmail.com\",\n  \"password\": \"123456\",\n  \"phone\": \"0903456781\",\n  \"birthday\": \"1995-04-12\",\n  \"gender\": true,\n  \"role\": \"USER\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

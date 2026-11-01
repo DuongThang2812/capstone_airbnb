@@ -85,13 +85,13 @@ CREATE TABLE IF NOT EXISTS BinhLuan (
     REFERENCES NguoiDung(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- Mật khẩu của cả 5 tài khoản mẫu: Password@123
+-- Mật khẩu của cả 5 tài khoản mẫu: 123456
 INSERT INTO NguoiDung (name, email, pass_word, phone, birth_day, gender, role, avatar) VALUES
-('Nguyen An', 'an@example.com', '$2b$10$JVV51.CEu2Ed6QXLltdIqeKHRoi/naChzvU9kJ9Ron4jIBUbktQKm', '0901000001', '1995-01-15', TRUE, 'USER', NULL),
-('Tran Binh', 'binh@example.com', '$2b$10$JVV51.CEu2Ed6QXLltdIqeKHRoi/naChzvU9kJ9Ron4jIBUbktQKm', '0901000002', '1994-02-20', TRUE, 'USER', NULL),
-('Le Chi', 'chi@example.com', '$2b$10$JVV51.CEu2Ed6QXLltdIqeKHRoi/naChzvU9kJ9Ron4jIBUbktQKm', '0901000003', '1996-03-25', FALSE, 'USER', NULL),
-('Pham Dung', 'dung@example.com', '$2b$10$JVV51.CEu2Ed6QXLltdIqeKHRoi/naChzvU9kJ9Ron4jIBUbktQKm', '0901000004', '1992-04-10', FALSE, 'USER', NULL),
-('Vo Em', 'em@example.com', '$2b$10$JVV51.CEu2Ed6QXLltdIqeKHRoi/naChzvU9kJ9Ron4jIBUbktQKm', '0901000005', '1998-05-05', TRUE, 'USER', NULL);
+('Nguyen An', 'an@example.com', '$2b$10$FCGEAyF/hpAQ0e4SquRZie352/QC9vlh1odnlYI2ULF8xVx7RQN2O', '0901000001', '1995-01-15', TRUE, 'USER', NULL),
+('Tran Binh', 'binh@example.com', '$2b$10$FCGEAyF/hpAQ0e4SquRZie352/QC9vlh1odnlYI2ULF8xVx7RQN2O', '0901000002', '1994-02-20', TRUE, 'USER', NULL),
+('Le Chi', 'chi@example.com', '$2b$10$FCGEAyF/hpAQ0e4SquRZie352/QC9vlh1odnlYI2ULF8xVx7RQN2O', '0901000003', '1996-03-25', FALSE, 'USER', NULL),
+('Pham Dung', 'dung@example.com', '$2b$10$FCGEAyF/hpAQ0e4SquRZie352/QC9vlh1odnlYI2ULF8xVx7RQN2O', '0901000004', '1992-04-10', FALSE, 'USER', NULL),
+('Vo Em', 'em@example.com', '$2b$10$FCGEAyF/hpAQ0e4SquRZie352/QC9vlh1odnlYI2ULF8xVx7RQN2O', '0901000005', '1998-05-05', TRUE, 'USER', NULL);
 
 INSERT INTO ViTri (ten_vi_tri, tinh_thanh, quoc_gia, hinh_anh) VALUES
 ('Quan 1', 'TP Ho Chi Minh', 'Viet Nam', '/img/quan-1.jpg'),

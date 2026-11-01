@@ -7,7 +7,7 @@ export class SignUpDto {
   @ApiProperty({ example: 'a@example.com' })
   email!: string;
 
-  @ApiProperty({ example: 'Password@123' })
+  @ApiProperty({ example: '123456' })
   password!: string;
 
   @ApiPropertyOptional({ example: '0901234567' })

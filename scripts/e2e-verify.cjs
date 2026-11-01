@@ -9,7 +9,7 @@ const baseUrl = process.env.E2E_BASE_URL || 'http://localhost:8080';
 const reportPath = path.resolve(process.argv[2] || 'e2e-report.md');
 const statePath = path.join(__dirname, '.e2e-state.json');
 const imageDir = path.resolve('public/img');
-const password = 'Airbnb@Qa2026!';
+const password = '123456';
 const marker = '.airbnbqa26@gmail.com';
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lZkAAAAASUVORK5CYII=', 'base64');
 const results = new Map();
