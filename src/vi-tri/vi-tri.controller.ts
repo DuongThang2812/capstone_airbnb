@@ -15,13 +15,19 @@ export class ViTriController {
   constructor(private readonly viTri: ViTriService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Get all locations' })
+  @ApiOperation({
+    summary: "Lấy danh sách vị trí",
+    description: "Công khai, không yêu cầu JWT Bearer Token. Không có tham số đầu vào; trả về toàn bộ vị trí du lịch.",
+  })
   async findAll() {
     return success(await this.viTri.findAll());
   }
 
   @Post()
-  @ApiOperation({ summary: 'Create a new location' })
+  @ApiOperation({
+    summary: "Tạo vị trí mới",
+    description: "Yêu cầu JWT Bearer Token. Body: tenViTri là tên địa điểm, tinhThanh là tỉnh hoặc thành phố, quocGia là quốc gia; hinhAnh là đường dẫn ảnh tùy chọn.",
+  })
   @HttpCode(200)
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
@@ -30,7 +36,10 @@ export class ViTriController {
   }
 
   @Get('phan-trang-tim-kiem')
-  @ApiOperation({ summary: 'Paginate and search locations by name' })
+  @ApiOperation({
+    summary: "Phân trang và tìm kiếm vị trí",
+    description: "Công khai, không yêu cầu JWT Bearer Token. Query pageIndex là số trang (mặc định 1), pageSize là số bản ghi mỗi trang (mặc định 10), keyword lọc theo tenViTri.",
+  })
   @ApiQuery({ name: 'pageIndex', required: false, example: 1 })
   @ApiQuery({ name: 'pageSize', required: false, example: 10 })
   @ApiQuery({ name: 'keyword', required: false })
@@ -47,7 +56,10 @@ export class ViTriController {
   }
 
   @Post('upload-hinh-vitri')
-  @ApiOperation({ summary: 'Upload an image for a location by maViTri' })
+  @ApiOperation({
+    summary: "Tải ảnh cho vị trí",
+    description: "Yêu cầu JWT Bearer Token. Query maViTri là mã vị trí nguyên dương cần gắn ảnh. Body multipart/form-data: formFile là ảnh JPG, PNG hoặc WebP, tối đa 5 MB.",
+  })
   @HttpCode(200)
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
@@ -86,13 +98,19 @@ export class ViTriController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get location details by ID' })
+  @ApiOperation({
+    summary: "Lấy chi tiết vị trí theo mã",
+    description: "Công khai, không yêu cầu JWT Bearer Token. Path id là mã vị trí nguyên dương cần xem.",
+  })
   async findOne(@Param('id') id: string) {
     return success(await this.viTri.findOne(positiveInt(id, 'id')));
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Update a location by ID' })
+  @ApiOperation({
+    summary: "Cập nhật vị trí theo mã",
+    description: "Yêu cầu JWT Bearer Token. Path id là mã vị trí nguyên dương. Body có thể gồm tenViTri, tinhThanh, quocGia, hinhAnh; cần ít nhất một trường.",
+  })
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   async update(@Param('id') id: string, @Body() dto: UpdateViTriDto) {
@@ -100,7 +118,10 @@ export class ViTriController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a location by ID' })
+  @ApiOperation({
+    summary: "Xóa vị trí theo mã",
+    description: "Yêu cầu JWT Bearer Token. Path id là mã vị trí nguyên dương cần xóa; phòng thuộc vị trí và dữ liệu liên quan bị xóa theo khóa ngoại.",
+  })
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   async remove(@Param('id') id: string) {
