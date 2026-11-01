@@ -13,8 +13,8 @@ async function bootstrap(): Promise<void> {
   app.useGlobalFilters(new ApiExceptionFilter());
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Airbnb API - Day 2')
-    .setDescription('Authentication, users, locations, and rooms RESTful API')
+    .setTitle('Airbnb RESTful API - Capstone Node.js')
+    .setDescription('Authentication, users, locations, rooms, bookings, and comments')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
