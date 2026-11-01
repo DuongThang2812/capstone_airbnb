@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { randomUUID } from 'crypto';
 import { Request } from 'express';
 import { diskStorage } from 'multer';
@@ -12,28 +12,35 @@ import { positiveInt } from '../common/input';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
-@ApiTags('Users')
+@ApiTags('NguoiDung')
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly users: UsersService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all users' })
   async findAll() {
     return success(await this.users.findAll());
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create a new user' })
   @HttpCode(200)
   async create(@Body() dto: SignUpDto) {
     return success(await this.users.create(dto, true));
   }
 
   @Delete()
+  @ApiOperation({ summary: 'Delete a user by ID' })
   async remove(@Query('id') id: string) {
     return success(await this.users.remove(positiveInt(id, 'id')));
   }
 
   @Get('phan-trang-tim-kiem')
+  @ApiOperation({ summary: 'Paginate and search users' })
+  @ApiQuery({ name: 'pageIndex', required: false, example: 1 })
+  @ApiQuery({ name: 'pageSize', required: false, example: 10 })
+  @ApiQuery({ name: 'keyword', required: false })
   async paginate(
     @Query('pageIndex') pageIndex: string | undefined,
     @Query('pageSize') pageSize: string | undefined,
@@ -47,11 +54,13 @@ export class UsersController {
   }
 
   @Get('search/:TenNguoiDung')
+  @ApiOperation({ summary: 'Search users by name' })
   async search(@Param('TenNguoiDung') name: string) {
     return success(await this.users.search(name));
   }
 
   @Post('upload-avatar')
+  @ApiOperation({ summary: 'Upload an avatar for the signed-in user' })
   @HttpCode(200)
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
@@ -88,11 +97,13 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get user details by ID' })
   async findOne(@Param('id') id: string) {
     return success(await this.users.findOne(positiveInt(id, 'id')));
   }
 
   @Put(':id')
+  @ApiOperation({ summary: 'Update a user by ID' })
   async update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return success(await this.users.update(positiveInt(id, 'id'), dto));
   }
